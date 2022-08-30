@@ -1,13 +1,11 @@
-<div class="card h-100">
-    <img src="https://randomuser.me/api/portraits/men/75.jpg" class="card-img-top" alt="...">
+<div class="card shadow">
+    <img src="https://randomuser.me/api/portraits/men/75.jpg" class="card-img-top rounded-circle p-2" alt="...">
     <div class="card-body">
-        <h5 class="card-title">Nombre del usuario completo</h5>
+      <h5 class="card-title text-center">Nombre del usuario</h5>
     </div>
-    <div class="card-footer">
-        <small class="text-muted d-flex justify-content-between">
-            <button class="btn btn-light" [routerLink]="['/user', '1']">Ver detalle</button>
-            <button class="btn btn-light">Actualizar</button>
-            <button class="btn btn-light">Borrar</button>
-        </small>
+    <div class="d-flex justify-content-between m-2">
+        <a class="btn btn-secondary d-flex align-items-center p-1" [routerLink]="['/user', '1']"><i class="fa-solid fa-magnifying-glass me-1"> </i>Ver</a>
+        <a class="btn btn-secondary d-flex align-items-center p-1"><i class="fa-solid fa-arrows-rotate me-1"></i>Actualizar</a>
+        <a class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></a>
     </div>
-</div>
+  </div>
