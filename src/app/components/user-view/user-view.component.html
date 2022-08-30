@@ -1,1 +1,20 @@
-<p>user-view works!</p>
+<section class="container mt-4">
+    <div class="card shadow p-3 border-2">
+        <div class="row">
+            <figure class="col-12 col-md-4">
+                <img class="img" src="https://randomuser.me/api/portraits/men/75.jpg" alt="name">
+            </figure>
+            <div class="col-12 col-md-8">
+                <h2>Nombre del usuario</h2>
+                <h2>Apellido del usuario</h2>
+                <ul>
+                    <li>Nombre de usuario: </li>
+                    <li>Email: </li>
+                </ul>
+                <button class="btn btn-light">Eliminar</button>
+                <button class="btn btn-light ms-2">Actualizar</button>
+                <button class="btn btn-light ms-2" [routerLink]="['/home']">Volver al listado</button>
+            </div>
+        </div>
+    </div>
+</section>

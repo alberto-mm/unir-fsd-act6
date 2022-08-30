@@ -1,1 +1,13 @@
-<p>user-card works!</p>
+<div class="card h-100">
+    <img src="https://randomuser.me/api/portraits/men/75.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">Nombre del usuario completo</h5>
+    </div>
+    <div class="card-footer">
+        <small class="text-muted d-flex justify-content-between">
+            <button class="btn btn-light" [routerLink]="['/user', '1']">Ver detalle</button>
+            <button class="btn btn-light">Actualizar</button>
+            <button class="btn btn-light">Borrar</button>
+        </small>
+    </div>
+</div>
