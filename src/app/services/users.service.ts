@@ -14,4 +14,8 @@ export class UsersService {
   getAll(): Promise<any> {
     return lastValueFrom(this.httpClient.get<any>(this.baseUrl));
   }
+
+  getById(pId: number): Promise<any> {
+    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}/${pId}`));
+  }
 }

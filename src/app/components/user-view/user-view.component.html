@@ -2,14 +2,14 @@
     <div class="card p-3 shadow">
         <div class="row">
             <figure class="col-12 col-md-4">
-                <img class="img" src="https://randomuser.me/api/portraits/men/75.jpg" alt="name">
+                <img class="img" [src]="myUser?.image" [alt]="myUser?.first_name">
             </figure>
             <div class="col-12 col-md-8">
-                <h2>Nombre del usuario</h2>
-                <h2>Apellido del usuario</h2>
+                <h2>{{ myUser?.first_name }}</h2>
+                <h2>{{ myUser?.last_name }}</h2>
                 <ul>
-                    <li>Nombre de usuario: </li>
-                    <li>Email: </li>
+                    <li>Nombre de usuario: {{ myUser?.username }}</li>
+                    <li>Email: {{ myUser?.email }}</li>
                 </ul>
                 <div class="d-flex justify-content-start">
                     <button class="btn btn-secondary d-flex align-items-center"><i class="fa-solid fa-arrows-rotate me-1"></i>Actualizar</button>
