@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/interfaces/user.interface';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -18,7 +18,8 @@ export class FormComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private router: Router
   ) {
     this.form = new FormGroup({
       first_name: new FormControl('', [
@@ -75,15 +76,36 @@ export class FormComponent implements OnInit {
     });
   }
 
-  getDataForm() {
+  async getDataForm() {
     if (this.form.valid) {
-      console.log(this.form.value)
       /* TO DO
-      - CREAR UNA VARIABLE newUser QUE ALMACENE LOS DATOS DEL FORMULARIO (QUITAR repeatPassword)
-      - HACER EL ENVÍO DE DATOS A LA API (CREAR CON POST Y ACTUALIZAR CON PUT)
+      - HACER EL ENVÍO DE DATOS A LA API PARA ACTUALIZAR UN USUARIO (PUT)
       - INFORMAR DE LA RESPUESTA DE LA API (OK o KO)
-      - VACIAR EL FORMULARIO O REDIRIGIR AL LISTADO (MEJRO LA SEGUNDA OPCIÓN)
+      - REDIRIGIR AL LISTADO
       */
+
+      // La propiedad repeatPassword no es necesaria, por lo que habrá que asignar cada una de las propiedades del objeto
+      let newUser: User = {
+        'first_name': this.form.value.first_name,
+        'last_name': this.form.value.last_name,
+        'username': this.form.value.username,
+        'email': this.form.value.email,
+        'image': this.form.value.image,
+        'password': this.form.value.password
+      }
+
+      try {
+        let response = await this.usersService.create(newUser);
+        // Si se devuelven los datos del usuario añadiendo el id, se considera como correcta la insercción aunque no se visualice
+        if (response.id) {
+          alert('El ususario ha sido creado correctamente');
+          this.router.navigate(['/home']);
+        } else {
+          alert('Ha ocurrido un error. Por favor, inténtalo de nuevo');
+        }
+      } catch(err) {
+        console.log(err);
+      }
     } else {
       alert('¡Hay campos del formulario incorrectos!');
     }
