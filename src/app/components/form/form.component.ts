@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/interfaces/user.interface';
 import { UsersService } from 'src/app/services/users.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form',
@@ -98,16 +99,26 @@ export class FormComponent implements OnInit {
         let response = await this.usersService.create(newUser);
         // Si se devuelven los datos del usuario añadiendo el id, se considera como correcta la insercción aunque no se visualice
         if (response.id) {
-          alert('El ususario ha sido creado correctamente');
+          Swal.fire({
+            icon: 'success',
+            title: 'El usuario ha sido borrado correctamente'
+          })
           this.router.navigate(['/home']);
         } else {
-          alert('Ha ocurrido un error. Por favor, inténtalo de nuevo');
+          Swal.fire({
+            icon: 'error',
+            title: 'Ha ocurrido un error',
+            text: 'Por favor, inténtelo de nuevo'
+          })
         }
       } catch(err) {
         console.log(err);
       }
     } else {
-      alert('¡Hay campos del formulario incorrectos!');
+      Swal.fire({
+        icon: 'warning',
+        title: '¡Hay campos del formulario incorrectos!'
+      })
     }
   }
 
