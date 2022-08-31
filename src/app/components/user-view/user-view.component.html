@@ -4,7 +4,7 @@
             <figure class="col-12 col-md-4">
                 <img class="img" [src]="myUser?.image" [alt]="myUser?.first_name">
             </figure>
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-8 position-relative">
                 <h2>{{ myUser?.first_name }}</h2>
                 <h2>{{ myUser?.last_name }}</h2>
                 <ul>
@@ -12,9 +12,11 @@
                     <li>Email: {{ myUser?.email }}</li>
                 </ul>
                 <div class="d-flex justify-content-start">
-                    <button class="btn btn-secondary d-flex align-items-center"><i class="fa-solid fa-arrows-rotate me-1"></i>Actualizar</button>
-                    <button class="btn btn-secondary ms-2" [routerLink]="['/home']">Volver al listado</button>
+                    <button class="btn btn-secondary d-flex align-items-center" [routerLink]="['/updateuser', myUser?.id]"><i class="fa-solid fa-arrows-rotate me-1"></i>Actualizar</button>
                     <button class="btn btn-danger ms-2"><i class="fa-regular fa-trash-can"></i></button>
+                </div>
+                <div class="position-absolute bottom-0 end-0">
+                    <button class="btn btn-secondary me-3" [routerLink]="['/home']">Volver al listado</button>
                 </div>
             </div>
         </div>

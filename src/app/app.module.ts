@@ -10,6 +10,7 @@ import { UserCardComponent } from './components/user-card/user-card.component';
 import { UserViewComponent } from './components/user-view/user-view.component';
 import { FormComponent } from './components/form/form.component';
 import { Error404Component } from './components/error404/error404.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { Error404Component } from './components/error404/error404.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
