@@ -4,4 +4,11 @@
             <app-user-card [myUser]="user"></app-user-card>
         </article>
     </div>
+    <p class="text-muted text-start mt-4">Mostrando {{perPage}} resultados por página (Total: {{totalUsers}})</p>
+    <hr>
+    <div class="d-flex justify-content-center align-items-center my-4">
+        <button class="btn btn-secondary mx-3" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1"><i class="fa-solid fa-chevron-left align-middle"></i></button>
+        <p class="text-muted mt-3">Página {{currentPage}} de {{totalPages}}</p>
+        <button class="btn btn-secondary mx-3" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages"><i class="fa-solid fa-chevron-right align-middle"></i></button>
+    </div>
 </section>
