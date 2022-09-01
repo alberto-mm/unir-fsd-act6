@@ -20,7 +20,11 @@ export class UsersService {
     return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}/${pId}`));
   }
 
-  create(pUser: User): Promise<User> {
+  createUser(pUser: User): Promise<User> {
     return lastValueFrom(this.httpClient.post<User>(this.baseUrl, pUser));
+  }
+
+  updateUser(pUser: User): Promise<any> {
+    return lastValueFrom(this.httpClient.put<any>(`${this.baseUrl}/${pUser.id}`, pUser));
   }
 }

@@ -14,8 +14,8 @@ export class FormComponent implements OnInit {
 
   form: FormGroup;
   myUser: User | any;
-  formName: string = '';
-  buttonName: string = '';
+  formName: string = 'NUEVO USUARIO';
+  buttonName: string = 'Guardar';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -50,29 +50,54 @@ export class FormComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(async (params: any) => {
-      // Se comprueba la ruta para definir si se quiere actualizar o crear un usuario
+      // Se comprueba la ruta para definir si se quiere actualizar un usuario
       if (params.iduser !== undefined) {
-        // Si se quiere actualizar, se obtienen los datos del usuario
         let id: number = parseInt(params.iduser);
+        this.formName = 'ACTUALIZAR USUARIO';
+        this.buttonName = 'Actualizar';
+        // Como se quiere actualizar, se obtienen los datos del usuario
         try {
           let response = await this.usersService.getById(id);
           this.myUser = response;
+          // Se actualizan los valores de cada campo del formulario para mostrar la info del usuario
+          this.form = new FormGroup({
+            first_name: new FormControl(this.myUser?.first_name, [
+              Validators.required
+            ]),
+            last_name: new FormControl(this.myUser?.last_name, [
+              Validators.required
+            ]),
+            username: new FormControl(this.myUser?.username, [
+              Validators.required
+            ]),
+            email: new FormControl(this.myUser?.email, [
+              Validators.required,
+              Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,7}$/)
+            ]),
+            image: new FormControl(this.myUser?.image, [
+              Validators.required
+            ]),
+            password: new FormControl('', [
+              Validators.required,
+              Validators.minLength(8),
+              Validators.maxLength(16)
+            ]),
+            repeatPassword: new FormControl('', []),
+            id: new FormControl(this.myUser?.id, [])
+          }, [this.checkPassword])
+          /*
           this.form.patchValue({
             first_name: this.myUser.first_name,
             last_name: this.myUser.last_name,
             username: this.myUser.username,
             email: this.myUser.email,
-            image: this.myUser.image
+            image: this.myUser.image,
+            id: this.myUser.id
           });
-          this.formName = 'ACTUALIZAR USUARIO';
-          this.buttonName = 'Actualizar';
+          */
         } catch(err) {
           console.log(err);
         }
-      } else {
-        // Crear nuevo usuario
-        this.formName = 'NUEVO USUARIO';
-        this.buttonName = 'Guardar';
       }
     });
   }
@@ -85,7 +110,10 @@ export class FormComponent implements OnInit {
       - REDIRIGIR AL LISTADO
       */
 
-      // La propiedad repeatPassword no es necesaria, por lo que habrá que asignar cada una de las propiedades del objeto
+      // La propiedad repeatPassword ya no es necesaria, por lo que se elimina
+      delete this.form.value.repeatPassword;
+      let newUser: User = this.form.value;
+      /*
       let newUser: User = {
         'first_name': this.form.value.first_name,
         'last_name': this.form.value.last_name,
@@ -93,26 +121,52 @@ export class FormComponent implements OnInit {
         'email': this.form.value.email,
         'image': this.form.value.image,
         'password': this.form.value.password
-      }
+      }*/
 
-      try {
-        let response = await this.usersService.create(newUser);
-        // Si se devuelven los datos del usuario añadiendo el id, se considera como correcta la insercción aunque no se visualice
-        if (response.id) {
-          Swal.fire({
-            icon: 'success',
-            title: 'El usuario ha sido borrado correctamente'
-          })
-          this.router.navigate(['/home']);
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Ha ocurrido un error',
-            text: 'Por favor, inténtelo de nuevo'
-          })
+      if (newUser.id) {
+        // Se está actualizando un usuario
+        try {
+          let response = await this.usersService.updateUser(newUser);
+          // Si se devuelven todos los datos del usuario, se considera como correcta la actualización aunque no se visualice
+          // Se comprueba que exista el id en la respuesta
+          if (response.id) {
+            Swal.fire({
+              icon: 'success',
+              title: 'El usuario ha sido actualizado correctamente'
+            })
+            this.router.navigate(['/home']);
+          } else {
+            // Si ocurre un error, se usa el mensaje de error recibido en la respuesta de la API
+            Swal.fire({
+              icon: 'error',
+              title: 'Ha ocurrido un error',
+              text: response.error
+            })
+          }
+        } catch(err) {
+          console.log(err);
         }
-      } catch(err) {
-        console.log(err);
+      } else {
+        // Se está creando un nuevo usuario
+        try {
+          let response = await this.usersService.createUser(newUser);
+          // Si se devuelven los datos del usuario añadiendo el id, se considera como correcta la insercción aunque no se visualice
+          if (response.id) {
+            Swal.fire({
+              icon: 'success',
+              title: 'El usuario ha sido creado correctamente'
+            })
+            this.router.navigate(['/home']);
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Ha ocurrido un error',
+              text: 'Por favor, inténtelo de nuevo'
+            })
+          }
+        } catch(err) {
+          console.log(err);
+        }
       }
     } else {
       Swal.fire({
