@@ -13,7 +13,7 @@
                 </ul>
                 <div class="d-flex justify-content-start">
                     <button class="btn btn-secondary d-flex align-items-center" [routerLink]="['/updateuser', myUser?.id]"><i class="fa-solid fa-arrows-rotate me-1"></i>Actualizar</button>
-                    <button class="btn btn-danger ms-2"><i class="fa-regular fa-trash-can"></i></button>
+                    <button class="btn btn-danger ms-2" (click)="deleteUser(myUser?.id)"><i class="fa-regular fa-trash-can"></i></button>
                 </div>
                 <div class="position-absolute bottom-0 end-0">
                     <button class="btn btn-secondary me-3" [routerLink]="['/home']">Volver al listado</button>

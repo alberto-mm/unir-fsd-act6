@@ -85,16 +85,6 @@ export class FormComponent implements OnInit {
             repeatPassword: new FormControl('', []),
             id: new FormControl(this.myUser?.id, [])
           }, [this.checkPassword])
-          /*
-          this.form.patchValue({
-            first_name: this.myUser.first_name,
-            last_name: this.myUser.last_name,
-            username: this.myUser.username,
-            email: this.myUser.email,
-            image: this.myUser.image,
-            id: this.myUser.id
-          });
-          */
         } catch(err) {
           console.log(err);
         }
@@ -104,36 +94,21 @@ export class FormComponent implements OnInit {
 
   async getDataForm() {
     if (this.form.valid) {
-      /* TO DO
-      - HACER EL ENVÍO DE DATOS A LA API PARA ACTUALIZAR UN USUARIO (PUT)
-      - INFORMAR DE LA RESPUESTA DE LA API (OK o KO)
-      - REDIRIGIR AL LISTADO
-      */
-
       // La propiedad repeatPassword ya no es necesaria, por lo que se elimina
       delete this.form.value.repeatPassword;
       let newUser: User = this.form.value;
-      /*
-      let newUser: User = {
-        'first_name': this.form.value.first_name,
-        'last_name': this.form.value.last_name,
-        'username': this.form.value.username,
-        'email': this.form.value.email,
-        'image': this.form.value.image,
-        'password': this.form.value.password
-      }*/
 
       if (newUser.id) {
         // Se está actualizando un usuario
         try {
-          let response = await this.usersService.updateUser(newUser);
+          let response = await this.usersService.update(newUser);
           // Si se devuelven todos los datos del usuario, se considera como correcta la actualización aunque no se visualice
           // Se comprueba que exista el id en la respuesta
           if (response.id) {
             Swal.fire({
               icon: 'success',
               title: 'El usuario ha sido actualizado correctamente'
-            })
+            });
             this.router.navigate(['/home']);
           } else {
             // Si ocurre un error, se usa el mensaje de error recibido en la respuesta de la API
@@ -141,7 +116,7 @@ export class FormComponent implements OnInit {
               icon: 'error',
               title: 'Ha ocurrido un error',
               text: response.error
-            })
+            });
           }
         } catch(err) {
           console.log(err);
@@ -149,20 +124,20 @@ export class FormComponent implements OnInit {
       } else {
         // Se está creando un nuevo usuario
         try {
-          let response = await this.usersService.createUser(newUser);
+          let response = await this.usersService.create(newUser);
           // Si se devuelven los datos del usuario añadiendo el id, se considera como correcta la insercción aunque no se visualice
           if (response.id) {
             Swal.fire({
               icon: 'success',
               title: 'El usuario ha sido creado correctamente'
-            })
+            });
             this.router.navigate(['/home']);
           } else {
             Swal.fire({
               icon: 'error',
               title: 'Ha ocurrido un error',
               text: 'Por favor, inténtelo de nuevo'
-            })
+            });
           }
         } catch(err) {
           console.log(err);
@@ -172,7 +147,7 @@ export class FormComponent implements OnInit {
       Swal.fire({
         icon: 'warning',
         title: '¡Hay campos del formulario incorrectos!'
-      })
+      });
     }
   }
 

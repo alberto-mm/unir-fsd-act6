@@ -20,11 +20,15 @@ export class UsersService {
     return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}/${pId}`));
   }
 
-  createUser(pUser: User): Promise<User> {
+  create(pUser: User): Promise<User> {
     return lastValueFrom(this.httpClient.post<User>(this.baseUrl, pUser));
   }
 
-  updateUser(pUser: User): Promise<any> {
+  update(pUser: User): Promise<any> {
     return lastValueFrom(this.httpClient.put<any>(`${this.baseUrl}/${pUser.id}`, pUser));
+  }
+
+  delete(pId: number): Promise<any> {
+    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/${pId}`));
   }
 }
