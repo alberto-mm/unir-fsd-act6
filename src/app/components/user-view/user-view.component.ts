@@ -38,7 +38,7 @@ export class UserViewComponent implements OnInit {
         title: `¿Estás seguro de que deseas borrar a ${this.myUser.first_name} ${this.myUser.last_name}?`,
         showDenyButton: true,
         confirmButtonText: 'Confirmar',
-        denyButtonText: 'No'
+        denyButtonText: 'Cancelar'
       }).then(async (result) => {
         if (result.isConfirmed) {
           //Se borra el usuario

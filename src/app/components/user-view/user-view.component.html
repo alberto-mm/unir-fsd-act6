@@ -5,8 +5,7 @@
                 <img class="img" [src]="myUser?.image" [alt]="myUser?.first_name">
             </figure>
             <div class="col-12 col-md-8 position-relative">
-                <h2>{{ myUser?.first_name }}</h2>
-                <h2>{{ myUser?.last_name }}</h2>
+                <h2>{{ myUser?.first_name }} {{ myUser?.last_name }}</h2>
                 <ul>
                     <li>Nombre de usuario: {{ myUser?.username }}</li>
                     <li>Email: {{ myUser?.email }}</li>
